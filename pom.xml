@@ -6,6 +6,11 @@
 	<artifactId>JnaMapping</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
+		<dependency>
+			<groupId>org.bytedeco</groupId>
+			<artifactId>javacv-platform</artifactId>
+			<version>1.5.4</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna -->
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
