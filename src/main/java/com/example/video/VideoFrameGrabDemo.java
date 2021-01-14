@@ -32,7 +32,27 @@ public class VideoFrameGrabDemo {
 		// read() Error: Could not read frame in start(). OpenCVFrameGrabber
 //		test2(inputRtspPath, outputFilePath);
 //		test3(inputRtspPath, outputFilePath);
-		test4(inputRtspPath, outputFilePath);
+//		test4(inputRtspPath, outputFilePath);
+		
+		test5(inputFilePath, new File(outputFilePath).getParent());
+	}
+	
+	private static void test5(String inputFilePath, String outputFilePath) throws IOException {
+		FFmpegFrameGrabber frameGrabber = new FFmpegFrameGrabber(inputFilePath);
+		frameGrabber.start();
+		int frameNumPerSecond = 5;
+		int fps = (int) (frameGrabber.getFrameRate() / frameNumPerSecond);
+		Loader.load(opencv_java.class);
+		OpenCVFrameConverter.ToOrgOpenCvCoreMat frameConverter = new OpenCVFrameConverter.ToOrgOpenCvCoreMat();
+		for (int i = 1; i <= 5000; i++) {
+			Frame frame = frameGrabber.grabImage();
+			if (frameGrabber.getFrameNumber() % fps == 0) {
+				System.out.println(frameGrabber.getFrameNumber() + " " + frameGrabber.getTimestamp() * 1e-6);
+				Mat mat = frameConverter.convert(frame);
+				Imgcodecs.imwrite(String.format("%s\\test-%d.jpg", outputFilePath, i), mat);
+			}
+		}
+		frameGrabber.close();
 	}
 	
 	private static void test4(String inputFilePath, String outputFilePath) throws IOException {
